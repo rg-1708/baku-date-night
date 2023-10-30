@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { Montserrat as FontSans } from "next/font/google";
+import { Toaster } from "sonner";
 
 import "./globals.css";
 
@@ -24,6 +25,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={cn("font-sans antialiased", fontSans.variable)}>
+          <Toaster position="bottom-center" />
           {children}
         </body>
       </html>

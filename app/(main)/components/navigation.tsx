@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 
 import { useMediaQuery } from "usehooks-ts";
+import { UserItem } from "./user-item";
 
 const Navigation = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -123,7 +124,7 @@ const Navigation = () => {
           role="button"
           className={cn(
             `h-6 w-6 text-muted-foreground rounded-sm
-        hover:bg-neutral-300 absolute top-3 right-2 opacity-0 
+        hover:bg-neutral-300 absolute top-2.5 right-2 opacity-0 
         group-hover/sidebar:opacity-100 transition`,
             isMobile && "opacity-100"
           )}
@@ -131,7 +132,7 @@ const Navigation = () => {
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div>
-          <p>Action items</p>
+          <UserItem />
         </div>
         <div className="mt-4">
           <p>Notes</p>
@@ -151,7 +152,7 @@ const Navigation = () => {
           isMobile && "left-0 w-full"
         )}
       >
-        <nav>
+        <nav className="bg-transparent px-3 py-2.5 w-full">
           {isCollapsed && (
             <Menu
               role="button"
