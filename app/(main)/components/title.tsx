@@ -67,7 +67,9 @@ export const Title = ({ initialData }: TitleProps) => {
           size="sm"
           className="font-normal h-auto p-1"
         >
-          <span className="truncate">{initialData?.title}</span>
+          <p className="max-w-[120px] p-2 overflow-hidden truncate sm:max-w-xs md:max-w-sm lg:max-w-md">
+            {initialData?.title}
+          </p>
         </Button>
       )}
     </div>
