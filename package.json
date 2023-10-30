@@ -20,6 +20,7 @@
     "@supabase/supabase-js": "^2.38.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "convex": "^1.5.1",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.289.0",
     "mongodb": "^6.2.0",

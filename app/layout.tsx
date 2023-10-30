@@ -7,6 +7,8 @@ import "./globals.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
 
+import { ConvexClientProvider } from "@/components/providers/convex-provider";
+
 export const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -22,13 +24,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={cn("font-sans antialiased", fontSans.variable)}>
+    <html lang="en">
+      <body className={cn("font-sans antialiased", fontSans.variable)}>
+        <ConvexClientProvider>
           <Toaster position="bottom-center" />
           {children}
-        </body>
-      </html>
-    </ClerkProvider>
+        </ConvexClientProvider>
+      </body>
+    </html>
   );
 }
