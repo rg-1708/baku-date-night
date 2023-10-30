@@ -26,16 +26,16 @@ export const TrashBox = () => {
     return note.title.toLowerCase().includes(search.toLowerCase());
   });
 
-  const onClick = (documentId: string) => {
-    router.push(`/dashboard/notes/${documentId}`);
+  const onClick = (noteId: string) => {
+    router.push(`/dashboard/notes/${noteId}`);
   };
 
   const onRestore = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    documentId: Id<"notes">
+    noteId: Id<"notes">
   ) => {
     event.stopPropagation();
-    const promise = restore({ id: documentId });
+    const promise = restore({ id: noteId });
 
     toast.promise(promise, {
       loading: "Restoring note...",
@@ -44,8 +44,8 @@ export const TrashBox = () => {
     });
   };
 
-  const onRemove = (documentId: Id<"notes">) => {
-    const promise = remove({ id: documentId });
+  const onRemove = (noteId: Id<"notes">) => {
+    const promise = remove({ id: noteId });
 
     toast.promise(promise, {
       loading: "Deleting note...",
@@ -53,7 +53,7 @@ export const TrashBox = () => {
       error: " Failed to delete note.",
     });
 
-    if (params.documentId === documentId) {
+    if (params.noteId === noteId) {
       router.push("/dashboard");
     }
   };
@@ -79,7 +79,7 @@ export const TrashBox = () => {
       </div>
       <div className="mt-2 px-1 pb-1">
         <p className="hidden last:block text-xs text-center text-muted-foreground pb-2">
-          No documents found.
+          No notes found.
         </p>
         {filteredNotes?.map((note) => (
           <div

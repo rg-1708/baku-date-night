@@ -9,12 +9,11 @@ import { cn } from "@/lib/utils";
 
 import { Logo } from "./logo";
 
-import { useUser } from "@clerk/nextjs";
 import { Spinner } from "@/components/ui/spinner";
+import { useConvexAuth } from "convex/react";
 
 export const Navbar = () => {
-  const { isSignedIn, isLoaded } = useUser();
-
+  const { isAuthenticated, isLoading } = useConvexAuth();
   const scrolled = useScrollTop();
 
   return (
@@ -26,8 +25,8 @@ export const Navbar = () => {
     >
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
-        {!isLoaded && <Spinner />}
-        {!isSignedIn && isLoaded && (
+        {isLoading && <Spinner />}
+        {!isAuthenticated && !isLoading && (
           <>
             <SignInButton mode="modal">
               <Button variant="ghost" size="sm">
@@ -39,7 +38,7 @@ export const Navbar = () => {
             </SignUpButton>
           </>
         )}
-        {isSignedIn && isLoaded && (
+        {isAuthenticated && !isLoading && (
           <>
             <Button variant="ghost" size="sm" asChild>
               <Link href="/dashboard">Enter Datefy</Link>

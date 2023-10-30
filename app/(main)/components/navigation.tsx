@@ -12,7 +12,7 @@ import {
   Settings,
   Trash,
 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
@@ -24,20 +24,26 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 
 import { useMediaQuery } from "usehooks-ts";
+import { useSearch } from "@/hooks/use-search";
+import { useSettings } from "@/hooks/use-settings";
 
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 import { Item } from "./item";
+import { Navbar } from "./navbar";
 import { UserItem } from "./user-item";
 import { NotetList } from "./note-list";
 import { TrashBox } from "./trash-box";
 
 const Navigation = () => {
+  const search = useSearch();
+  const settings = useSettings();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
   const pathname = usePathname();
+  const params = useParams();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const create = useMutation(api.notes.create);
@@ -107,8 +113,8 @@ const Navigation = () => {
   };
 
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/notes/${documentId}`)
+    const promise = create({ title: "Untitled" }).then((noteId) =>
+      router.push(`/dashboard/notes/${noteId}`)
     );
 
     toast.promise(promise, {
@@ -169,8 +175,8 @@ const Navigation = () => {
         </div>
         <div>
           <UserItem />
-          <Item onClick={() => {}} label="Search" icon={Search} isSearch />
-          <Item onClick={() => {}} label="Settings" icon={Settings} />
+          <Item onClick={search.onOpen} label="Search" icon={Search} isSearch />
+          <Item onClick={settings.onOpen} label="Settings" icon={Settings} />
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
         <div className="mt-4">
@@ -198,20 +204,24 @@ const Navigation = () => {
       <div
         ref={navbarRef}
         className={cn(
-          "absolute top-0 z-[99999] left-60 w-[calc(100%- 240px)]",
+          "absolute top-0 z-[99999] left-60 w-[calc(100% - 240px)]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "left-0 w-full"
         )}
       >
-        <nav className="bg-transparent px-3 py-2.5 w-full">
-          {isCollapsed && (
-            <Menu
-              role="button"
-              onClick={resetWidth}
-              className="h-6 w-6 text-muted-foreground"
-            />
-          )}
-        </nav>
+        {!!params.noteId ? (
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+        ) : (
+          <nav className="bg-transparent px-3 py-2.5 w-full">
+            {isCollapsed && (
+              <Menu
+                role="button"
+                onClick={resetWidth}
+                className="h-6 w-6 text-muted-foreground"
+              />
+            )}
+          </nav>
+        )}
       </div>
     </>
   );
